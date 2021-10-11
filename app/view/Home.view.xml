@@ -1,0 +1,108 @@
+<mvc:View controllerName="com.hcl.telecom.operator.ui.controller.Home"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:l="sap.ui.layout"
+	xmlns:s="dev.sachin"
+	xmlns:tnt="sap.tnt" class="sapTntNavLI"
+	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+	xmlns:viz.data="sap.viz.ui5.data"
+	xmlns:mc="sap.suite.ui.microchart"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns:viz="sap.viz.ui5.controls">
+	<Page showHeader="false">
+		<VBox width="100%" class="banner-page">
+			<Text text="Customer Experience Management" class="banner-title sapUiLargeMarginTop animate__animated animate__fadeInUp" width="100%" textAlign="Center"/>
+		</VBox>
+		<l:Grid defaultSpan="L3 M6 S12" hSpacing="2">
+
+			<VBox class="kpi-box">
+				<Text class="label" textAlign="Begin" text="Open Tickets" width="100%"/>
+				<HBox justifyContent="End">
+					<Text class="value" tooltip="Tickets to be closed in 24 Hrs" textAlign="End" text="{/Counts/TicketsBreachingSLA}" width="100%"/>
+					<Text class="secondValue" textAlign="Start" text="/ {/Counts/OpenTickets}" width="100%"/>
+				</HBox>
+				<HBox>
+					<Link text="Breaching SLA" tooltip="Tickets to be closed in 24 Hrs" app:route="Tickets" app:filters="24Hrs" press="navigate" class="sapUiSmallMarginBegin sapUiTinyMarginBottom"/>
+					<Link text="/ All Tickets.." press="navigate" app:route="Tickets" class="sapUiTinyMarginBegin sapUiTinyMarginBottom"/>
+				</HBox>
+			</VBox>
+			<VBox class="kpi-box">
+				<Text class="label" textAlign="Begin" text="Tickets by Priority Customers" width="100%"/>
+				<Text class="value" textAlign="End" text="{/Counts/TicketsByPriorityCustomers}" width="100%"/>
+				<Link text="View Tickets..." press="navigate" class="sapUiSmallMarginBegin sapUiTinyMarginBottom" app:route="Tickets" app:filters="PriorityCustomers" />
+			</VBox>
+
+
+
+
+			<VBox class="kpi-box">
+				<Text class="label" textAlign="Begin" text="5G Requests" width="100%"/>
+				<Text class="value" textAlign="End" text="{/Counts/Open5GRequests}" width="100%"/>
+				<Link text="View..." press="requests" app:type="5G" class="sapUiSmallMarginBegin sapUiTinyMarginBottom"/>
+			</VBox>
+			<VBox class="kpi-box">
+				<Text class="label" textAlign="Begin" text="New Connection Requests" width="100%"/>
+				<Text class="value" textAlign="End" text="{/Counts/NewConnectionRequests}" width="100%"/>
+				<Link text="View Requests..." press="requests" app:type="Connection" class="sapUiSmallMarginBegin sapUiTinyMarginBottom"/>
+			</VBox>
+
+			<HBox class="kpi-box">
+				<layoutData>
+					<l:GridData span="L6 M12 S12"/>
+				</layoutData>
+				<VBox width="50%">
+					<Text class="label" textAlign="Begin" text="Tickets and&#10;Priorities" width="100%"/>
+					<Link text="Priority Tickets..." press="navigate" app:route="Tickets" app:filters="PriorityTickets" class="sapUiTinyMarginBottom sapUiSmallMarginBegin sapUiLargeMarginTop"/>
+				</VBox>
+
+				<VBox width="100%" class="sapContrast">
+					<viz:VizFrame vizProperties="{legend:{label:{style:{color:'#a0a0a0'}}},plotArea:{background:{},marker:{visible:false},referenceLine:{visible:false}},title:{visible:false},valueAxis:{title:{visible:false}},categoryAxis:{label:{angle:45,style:{color:'#a0a0a0'}},color:'#ffffff',title:{visible:false}}}" uiConfig="{applicationSet:'fiori'}" height="180px" width="100%" vizType='line'>
+						<viz:dataset>
+							<viz.data:FlattenedDataset data="{/Counts/TicketPriorityCounts}">
+								<viz.data:dimensions>
+									<viz.data:DimensionDefinition name="Date" value="{Date}" />
+								</viz.data:dimensions>
+								<viz.data:measures>
+									<viz.data:MeasureDefinition name="High" value="{High}" />
+									<viz.data:MeasureDefinition name="Medium" value="{Medium}" />
+									<viz.data:MeasureDefinition name="Low" value="{Low}" />
+								</viz.data:measures>
+							</viz.data:FlattenedDataset>
+						</viz:dataset>
+						<viz:feeds>
+							<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="High" />
+							<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="Medium" />
+							<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="Low" />
+							<viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Date" />
+						</viz:feeds>
+					</viz:VizFrame>
+				</VBox>
+
+			</HBox>
+
+
+			<VBox class="kpi-box">
+				<Text class="label" textAlign="Begin" text="Ageing Assets which may need replacement" width="100%"/>
+				<mc:RadialMicroChart size="M" tooltip="{/Counts/AgedAssets} Devices managed are 6+ Years old" percentage="{/Counts/AssetReplacementPercent}" press="press" class="sapUiSmallMargin"></mc:RadialMicroChart>
+			</VBox>
+			<VBox class="kpi-box">
+				<Text class="label" textAlign="Begin" text="Requirement vs &#10; In-Stock Assets" width="100%"/>
+
+				<mc:BulletMicroChart size="S" height="1.5rem" tooltip="In Stock" scale="M" class="sapUiSmallMarginBegin" press="press" scaleColor="Transparent" minValue="0" maxValue="{/Counts/MaxStockCount}" showValueMarker="false" showTargetValue="false" showActualValue="false">
+					<mc:actual>
+						<mc:BulletMicroChartData value="{/Counts/AssetsInStock}" color="Good"/>
+					</mc:actual>
+				</mc:BulletMicroChart>
+				<mc:BulletMicroChart size="S" height="1.5rem" tooltip="Required" scale="M" class="sapUiSmallMarginBegin sapUiTinyMarginBottom" press="press" scaleColor="Transparent" minValue="0" maxValue="{/Counts/MaxStockCount}" showValueMarker="false" showTargetValue="false" showActualValue="false">
+					<mc:actual>
+						<mc:BulletMicroChartData value="{/Counts/AssetsRequired}" color="Critical"/>
+					</mc:actual>
+				</mc:BulletMicroChart>
+				<Text text="{/Counts/AssetsInStock} In Stock vs {/Counts/AssetsRequired} Required" class="sapUiSmallMarginBegin"/>
+				<Link text="Inventory..." press="navigate" class="sapUiSmallMarginBegin sapUiTinyMarginBottom"/>
+			</VBox>
+		</l:Grid>
+	</Page>
+</mvc:View>

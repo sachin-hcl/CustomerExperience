@@ -1,0 +1,1679 @@
+{
+  "namespace": "com.hcl.telecom.operator",
+  "definitions": {
+    "com.hcl.telecom.operator.GeoCode": {
+      "kind": "aspect",
+      "elements": {
+        "lat": {
+          "type": "cds.Double"
+        },
+        "lng": {
+          "type": "cds.Double"
+        }
+      }
+    },
+    "com.hcl.telecom.operator.Address": {
+      "kind": "aspect",
+      "includes": [
+        "com.hcl.telecom.operator.GeoCode"
+      ],
+      "elements": {
+        "lat": {
+          "type": "cds.Double"
+        },
+        "lng": {
+          "type": "cds.Double"
+        },
+        "Address": {
+          "type": "cds.String",
+          "length": 256
+        },
+        "PostCode": {
+          "type": "cds.String",
+          "length": 12
+        },
+        "Country": {
+          "@title": "{i18n>Country}",
+          "@description": "{i18n>CountryCode.Description}",
+          "type": "Country",
+          "target": "sap.common.Countries",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "com.hcl.telecom.operator.Users": {
+      "kind": "entity",
+      "includes": [
+        "cuid",
+        "temporal"
+      ],
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "validFrom": {
+          "@cds.valid.from": true,
+          "type": "cds.Timestamp"
+        },
+        "validTo": {
+          "@cds.valid.to": true,
+          "type": "cds.Timestamp"
+        },
+        "Name": {
+          "type": "cds.String"
+        },
+        "UserType": {
+          "type": "cds.String",
+          "length": 32
+        }
+      }
+    },
+    "com.hcl.telecom.operator.Customers": {
+      "kind": "entity",
+      "includes": [
+        "cuid",
+        "com.hcl.telecom.operator.Address"
+      ],
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "lat": {
+          "type": "cds.Double"
+        },
+        "lng": {
+          "type": "cds.Double"
+        },
+        "Address": {
+          "type": "cds.String",
+          "length": 256
+        },
+        "PostCode": {
+          "type": "cds.String",
+          "length": 12
+        },
+        "Country": {
+          "@title": "{i18n>Country}",
+          "@description": "{i18n>CountryCode.Description}",
+          "type": "Country",
+          "target": "sap.common.Countries",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "Name": {
+          "@title": "{i18n>UserID}",
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "Rating": {
+          "type": "cds.Integer"
+        }
+      }
+    },
+    "com.hcl.telecom.operator.Assets": {
+      "kind": "entity",
+      "elements": {
+        "SerialNumber": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Vendor": {
+          "type": "cds.String",
+          "length": 64
+        },
+        "Customer": {
+          "type": "cds.Association",
+          "target": "com.hcl.telecom.operator.Customers",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "InstalledDate": {
+          "type": "cds.Date"
+        },
+        "LastServiceDate": {
+          "type": "cds.Date"
+        },
+        "SupportStatus": {
+          "type": "cds.String",
+          "length": 64
+        },
+        "InstallationType": {
+          "type": "cds.String",
+          "length": 32
+        },
+        "DeviceConnectionLimit": {
+          "type": "cds.Integer"
+        },
+        "Plan": {
+          "type": "cds.Association",
+          "target": "com.hcl.telecom.operator.Plans",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "com.hcl.telecom.operator.Plans": {
+      "kind": "entity",
+      "includes": [
+        "cuid"
+      ],
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Rent": {
+          "type": "cds.Double"
+        },
+        "DataLimit": {
+          "type": "cds.Integer"
+        },
+        "SpeedLimit": {
+          "type": "cds.Integer"
+        },
+        "InstallationType": {
+          "type": "cds.String",
+          "length": 128
+        },
+        "Rating": {
+          "type": "cds.Integer"
+        }
+      }
+    },
+    "com.hcl.telecom.operator.views.WeightageSummary": {
+      "kind": "entity",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "com.hcl.telecom.operator.Users"
+            ]
+          },
+          "columns": [
+            {
+              "func": "COUNT",
+              "args": [
+                "*"
+              ],
+              "as": "UserCount"
+            }
+          ]
+        }
+      },
+      "elements": {
+        "UserCount": {
+          "@Core.Computed": true
+        }
+      }
+    },
+    "com.hcl.telecom.operator.views.AssetsByAge": {
+      "kind": "entity",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "com.hcl.telecom.operator.Assets"
+            ]
+          },
+          "columns": [
+            "*",
+            {
+              "xpr": [
+                {
+                  "xpr": [
+                    {
+                      "func": "julianday",
+                      "args": [
+                        {
+                          "val": "now"
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "func": "julianday",
+                      "args": [
+                        {
+                          "ref": [
+                            "InstalledDate"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "/",
+                {
+                  "val": 365
+                }
+              ],
+              "as": "Age"
+            }
+          ]
+        }
+      },
+      "elements": {
+        "SerialNumber": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Vendor": {
+          "type": "cds.String",
+          "length": 64
+        },
+        "Customer": {
+          "type": "cds.Association",
+          "target": "com.hcl.telecom.operator.Customers",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "InstalledDate": {
+          "type": "cds.Date"
+        },
+        "LastServiceDate": {
+          "type": "cds.Date"
+        },
+        "SupportStatus": {
+          "type": "cds.String",
+          "length": 64
+        },
+        "InstallationType": {
+          "type": "cds.String",
+          "length": 32
+        },
+        "DeviceConnectionLimit": {
+          "type": "cds.Integer"
+        },
+        "Plan": {
+          "type": "cds.Association",
+          "target": "com.hcl.telecom.operator.Plans",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "Age": {
+          "@Core.Computed": true
+        }
+      }
+    },
+    "com.hcl.telecom.operator.views.AssetBySupportLevels": {
+      "kind": "entity",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "com.hcl.telecom.operator.Assets"
+            ]
+          },
+          "columns": [
+            {
+              "func": "COUNT",
+              "args": [
+                "*"
+              ],
+              "as": "Count"
+            },
+            {
+              "ref": [
+                "SupportStatus"
+              ]
+            }
+          ],
+          "groupBy": [
+            {
+              "ref": [
+                "SupportStatus"
+              ]
+            }
+          ]
+        }
+      },
+      "elements": {
+        "Count": {
+          "@Core.Computed": true
+        },
+        "SupportStatus": {
+          "type": "cds.String",
+          "length": 64
+        }
+      }
+    },
+    "com.hcl.telecom.operator.views.AssetGroupByAge": {
+      "kind": "entity",
+      "query": {
+        "SET": {
+          "op": "union",
+          "args": [
+            {
+              "SELECT": {
+                "from": {
+                  "ref": [
+                    "com.hcl.telecom.operator.views.AssetsByAge"
+                  ]
+                },
+                "columns": [
+                  {
+                    "func": "COUNT",
+                    "args": [
+                      "*"
+                    ],
+                    "as": "Count"
+                  },
+                  {
+                    "val": "0 - 2 Years",
+                    "as": "AgeGroup"
+                  }
+                ],
+                "where": [
+                  {
+                    "ref": [
+                      "Age"
+                    ]
+                  },
+                  "<=",
+                  {
+                    "val": 2
+                  }
+                ]
+              }
+            },
+            {
+              "SELECT": {
+                "from": {
+                  "ref": [
+                    "com.hcl.telecom.operator.views.AssetsByAge"
+                  ]
+                },
+                "columns": [
+                  {
+                    "func": "COUNT",
+                    "args": [
+                      "*"
+                    ],
+                    "as": "Count"
+                  },
+                  {
+                    "val": "2 - 4 Years",
+                    "as": "AgeGroup"
+                  }
+                ],
+                "where": [
+                  {
+                    "ref": [
+                      "Age"
+                    ]
+                  },
+                  "between",
+                  {
+                    "val": 2
+                  },
+                  "and",
+                  {
+                    "val": 4
+                  }
+                ]
+              }
+            },
+            {
+              "SELECT": {
+                "from": {
+                  "ref": [
+                    "com.hcl.telecom.operator.views.AssetsByAge"
+                  ]
+                },
+                "columns": [
+                  {
+                    "func": "COUNT",
+                    "args": [
+                      "*"
+                    ],
+                    "as": "Count"
+                  },
+                  {
+                    "val": "4 - 6 Years",
+                    "as": "AgeGroup"
+                  }
+                ],
+                "where": [
+                  {
+                    "ref": [
+                      "Age"
+                    ]
+                  },
+                  "between",
+                  {
+                    "val": 4
+                  },
+                  "and",
+                  {
+                    "val": 6
+                  }
+                ]
+              }
+            },
+            {
+              "SELECT": {
+                "from": {
+                  "ref": [
+                    "com.hcl.telecom.operator.views.AssetsByAge"
+                  ]
+                },
+                "columns": [
+                  {
+                    "func": "COUNT",
+                    "args": [
+                      "*"
+                    ],
+                    "as": "Count"
+                  },
+                  {
+                    "val": "6 + Years",
+                    "as": "AgeGroup"
+                  }
+                ],
+                "where": [
+                  {
+                    "ref": [
+                      "Age"
+                    ]
+                  },
+                  ">=",
+                  {
+                    "val": 6
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "elements": {
+        "Count": {
+          "@Core.Computed": true
+        },
+        "AgeGroup": {
+          "@Core.Computed": true
+        }
+      }
+    },
+    "com.hcl.telecom.operator.views.InstallationType": {
+      "kind": "entity",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "com.hcl.telecom.operator.Assets"
+            ]
+          },
+          "columns": [
+            {
+              "func": "COUNT",
+              "args": [
+                "*"
+              ],
+              "as": "Count"
+            },
+            {
+              "ref": [
+                "InstalledDate"
+              ]
+            },
+            {
+              "ref": [
+                "InstallationType"
+              ]
+            }
+          ],
+          "groupBy": [
+            {
+              "ref": [
+                "InstalledDate"
+              ]
+            },
+            {
+              "ref": [
+                "InstallationType"
+              ]
+            }
+          ]
+        }
+      },
+      "elements": {
+        "Count": {
+          "@Core.Computed": true
+        },
+        "InstalledDate": {
+          "type": "cds.Date"
+        },
+        "InstallationType": {
+          "type": "cds.String",
+          "length": 32
+        }
+      }
+    },
+    "com.hcl.telecom.operator.views.DailyServices": {
+      "kind": "entity",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "com.hcl.telecom.operator.Assets"
+            ]
+          },
+          "columns": [
+            {
+              "func": "COUNT",
+              "args": [
+                "*"
+              ],
+              "as": "Count"
+            },
+            {
+              "ref": [
+                "LastServiceDate"
+              ]
+            }
+          ],
+          "groupBy": [
+            {
+              "ref": [
+                "LastServiceDate"
+              ]
+            }
+          ]
+        }
+      },
+      "elements": {
+        "Count": {
+          "@Core.Computed": true
+        },
+        "LastServiceDate": {
+          "type": "cds.Date"
+        }
+      }
+    },
+    "com.hcl.telecom.operator.views.InstallationHotspots": {
+      "kind": "entity",
+      "query": {
+        "SELECT": {
+          "from": {
+            "join": "inner",
+            "args": [
+              {
+                "ref": [
+                  "com.hcl.telecom.operator.Assets"
+                ]
+              },
+              {
+                "ref": [
+                  "com.hcl.telecom.operator.Customers"
+                ]
+              }
+            ],
+            "on": [
+              {
+                "ref": [
+                  "Customers",
+                  "ID"
+                ]
+              },
+              "=",
+              {
+                "ref": [
+                  "Customer",
+                  "ID"
+                ]
+              }
+            ]
+          },
+          "columns": [
+            {
+              "func": "printf",
+              "args": [
+                {
+                  "val": "%.2f"
+                },
+                {
+                  "ref": [
+                    "lat"
+                  ]
+                }
+              ],
+              "as": "latitude"
+            },
+            {
+              "func": "printf",
+              "args": [
+                {
+                  "val": "%.2f"
+                },
+                {
+                  "ref": [
+                    "lng"
+                  ]
+                }
+              ],
+              "as": "longitude"
+            },
+            {
+              "ref": [
+                "InstalledDate"
+              ]
+            },
+            {
+              "func": "Count",
+              "args": [
+                "*"
+              ],
+              "as": "Count"
+            }
+          ],
+          "groupBy": [
+            {
+              "ref": [
+                "InstalledDate"
+              ]
+            }
+          ],
+          "where": [
+            {
+              "ref": [
+                "InstallationType"
+              ]
+            },
+            "=",
+            {
+              "val": "New"
+            }
+          ]
+        }
+      },
+      "elements": {
+        "latitude": {
+          "@Core.Computed": true
+        },
+        "longitude": {
+          "@Core.Computed": true
+        },
+        "InstalledDate": {
+          "type": "cds.Date"
+        },
+        "Count": {
+          "@Core.Computed": true
+        }
+      }
+    },
+    "Telecom": {
+      "@source": "srv/service.cds",
+      "kind": "service"
+    },
+    "Telecom.Users": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "com.hcl.telecom.operator.Users"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "validFrom": {
+          "@cds.valid.from": true,
+          "type": "cds.Timestamp"
+        },
+        "validTo": {
+          "@cds.valid.to": true,
+          "type": "cds.Timestamp"
+        },
+        "Name": {
+          "type": "cds.String"
+        },
+        "UserType": {
+          "type": "cds.String",
+          "length": 32
+        }
+      }
+    },
+    "Telecom.Customers": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "com.hcl.telecom.operator.Customers"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "lat": {
+          "type": "cds.Double"
+        },
+        "lng": {
+          "type": "cds.Double"
+        },
+        "Address": {
+          "type": "cds.String",
+          "length": 256
+        },
+        "PostCode": {
+          "type": "cds.String",
+          "length": 12
+        },
+        "Country": {
+          "@title": "{i18n>Country}",
+          "@description": "{i18n>CountryCode.Description}",
+          "type": "Country",
+          "target": "Telecom.Countries",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "Name": {
+          "@title": "{i18n>UserID}",
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "Rating": {
+          "type": "cds.Integer"
+        }
+      }
+    },
+    "Telecom.AssetsByAge": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "com.hcl.telecom.operator.views.AssetsByAge"
+          ]
+        }
+      },
+      "elements": {
+        "SerialNumber": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Vendor": {
+          "type": "cds.String",
+          "length": 64
+        },
+        "Customer": {
+          "type": "cds.Association",
+          "target": "Telecom.Customers",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "InstalledDate": {
+          "type": "cds.Date"
+        },
+        "LastServiceDate": {
+          "type": "cds.Date"
+        },
+        "SupportStatus": {
+          "type": "cds.String",
+          "length": 64
+        },
+        "InstallationType": {
+          "type": "cds.String",
+          "length": 32
+        },
+        "DeviceConnectionLimit": {
+          "type": "cds.Integer"
+        },
+        "Plan": {
+          "type": "cds.Association",
+          "target": "com.hcl.telecom.operator.Plans",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "Age": {
+          "@Core.Computed": true
+        }
+      }
+    },
+    "Telecom.AssetGroupByAge": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "com.hcl.telecom.operator.views.AssetGroupByAge"
+          ]
+        }
+      },
+      "elements": {
+        "Count": {
+          "@Core.Computed": true
+        },
+        "AgeGroup": {
+          "@Core.Computed": true
+        }
+      }
+    },
+    "Telecom.AssetBySupportLevels": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "com.hcl.telecom.operator.views.AssetBySupportLevels"
+          ]
+        }
+      },
+      "elements": {
+        "Count": {
+          "@Core.Computed": true
+        },
+        "SupportStatus": {
+          "type": "cds.String",
+          "length": 64
+        }
+      }
+    },
+    "Telecom.InstallationType": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "com.hcl.telecom.operator.views.InstallationType"
+          ]
+        }
+      },
+      "elements": {
+        "Count": {
+          "@Core.Computed": true
+        },
+        "InstalledDate": {
+          "type": "cds.Date"
+        },
+        "InstallationType": {
+          "type": "cds.String",
+          "length": 32
+        }
+      }
+    },
+    "Telecom.DailyServices": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "com.hcl.telecom.operator.views.DailyServices"
+          ]
+        }
+      },
+      "elements": {
+        "Count": {
+          "@Core.Computed": true
+        },
+        "LastServiceDate": {
+          "type": "cds.Date"
+        }
+      }
+    },
+    "Telecom.InstallationHotspots": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "com.hcl.telecom.operator.views.InstallationHotspots"
+          ]
+        }
+      },
+      "elements": {
+        "latitude": {
+          "@Core.Computed": true
+        },
+        "longitude": {
+          "@Core.Computed": true
+        },
+        "InstalledDate": {
+          "type": "cds.Date"
+        },
+        "Count": {
+          "@Core.Computed": true
+        }
+      }
+    },
+    "Language": {
+      "kind": "type",
+      "@title": "{i18n>Language}",
+      "@description": "{i18n>LanguageCode.Description}",
+      "type": "cds.Association",
+      "target": "sap.common.Languages",
+      "keys": [
+        {
+          "ref": [
+            "code"
+          ]
+        }
+      ]
+    },
+    "Currency": {
+      "kind": "type",
+      "@title": "{i18n>Currency}",
+      "@description": "{i18n>CurrencyCode.Description}",
+      "type": "cds.Association",
+      "target": "sap.common.Currencies",
+      "keys": [
+        {
+          "ref": [
+            "code"
+          ]
+        }
+      ]
+    },
+    "Country": {
+      "kind": "type",
+      "@title": "{i18n>Country}",
+      "@description": "{i18n>CountryCode.Description}",
+      "type": "cds.Association",
+      "target": "sap.common.Countries",
+      "keys": [
+        {
+          "ref": [
+            "code"
+          ]
+        }
+      ]
+    },
+    "sap.common": {
+      "kind": "context"
+    },
+    "sap.common.Languages": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "includes": [
+        "sap.common.CodeList"
+      ],
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@title": "{i18n>LanguageCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Languages.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "sap.common.Languages.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sap.common.Countries": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "includes": [
+        "sap.common.CodeList"
+      ],
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@title": "{i18n>CountryCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Countries.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "sap.common.Countries.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sap.common.Currencies": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "includes": [
+        "sap.common.CodeList"
+      ],
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@title": "{i18n>CurrencyCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "symbol": {
+          "@title": "{i18n>CurrencySymbol}",
+          "type": "cds.String",
+          "length": 5
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Currencies.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "sap.common.Currencies.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sap.common.CodeList": {
+      "kind": "aspect",
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        }
+      }
+    },
+    "cuid": {
+      "kind": "aspect",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        }
+      }
+    },
+    "managed": {
+      "kind": "aspect",
+      "elements": {
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        }
+      }
+    },
+    "temporal": {
+      "kind": "aspect",
+      "elements": {
+        "validFrom": {
+          "@cds.valid.from": true,
+          "type": "cds.Timestamp"
+        },
+        "validTo": {
+          "@cds.valid.to": true,
+          "type": "cds.Timestamp"
+        }
+      }
+    },
+    "User": {
+      "kind": "type",
+      "@title": "{i18n>UserID}",
+      "@description": "{i18n>UserID.Description}",
+      "type": "cds.String",
+      "length": 255
+    },
+    "sap.common.Languages.texts": {
+      "kind": "entity",
+      "@odata.draft.enabled": false,
+      "elements": {
+        "locale": {
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": false,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": false,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@odata.containment.ignore": true,
+          "@title": "{i18n>LanguageCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        }
+      }
+    },
+    "sap.common.Countries.texts": {
+      "kind": "entity",
+      "@odata.draft.enabled": false,
+      "elements": {
+        "locale": {
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": false,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": false,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@odata.containment.ignore": true,
+          "@title": "{i18n>CountryCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        }
+      }
+    },
+    "sap.common.Currencies.texts": {
+      "kind": "entity",
+      "@odata.draft.enabled": false,
+      "elements": {
+        "locale": {
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": false,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": false,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@odata.containment.ignore": true,
+          "@title": "{i18n>CurrencyCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        }
+      }
+    },
+    "Telecom.Countries": {
+      "kind": "entity",
+      "@cds.autoexposed": true,
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "projection": {
+        "from": {
+          "ref": [
+            "sap.common.Countries"
+          ]
+        }
+      },
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@title": "{i18n>CountryCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "Telecom.Countries.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "Telecom.Countries.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "Telecom.Countries.texts": {
+      "kind": "entity",
+      "@cds.autoexposed": true,
+      "@odata.draft.enabled": false,
+      "projection": {
+        "from": {
+          "ref": [
+            "sap.common.Countries.texts"
+          ]
+        }
+      },
+      "elements": {
+        "locale": {
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": false,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": false,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@odata.containment.ignore": true,
+          "@title": "{i18n>CountryCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        }
+      }
+    }
+  },
+  "meta": {
+    "creator": "CDS Compiler v2.7.0",
+    "flavor": "inferred"
+  },
+  "$version": "2.0"
+}

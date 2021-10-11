@@ -1,0 +1,48 @@
+<mvc:View controllerName="com.hcl.telecom.operator.ui.controller.Tickets"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:l="sap.ui.layout"
+	xmlns:tnt="sap.tnt">
+	<Page showHeader="false">
+		<!-- <l:Grid>
+			<VBox>
+				<Label text="Ticket Priority"/>
+				<MultiInput showSuggestion="true" showValueHelp="false">
+					<suggestionItems>
+						<core:Item text="High" />
+						<core:Item text="Medium" />
+						<core:Item text="Low" />
+					</suggestionItems>
+				</MultiInput>
+			</VBox>
+		</l:Grid> -->
+		<Title text="{/UI/TicketPageTitle}" class="sapUiSmallMargin"/>
+		<Table items="{/CustomerTickets}">
+			<columns>
+				<Column><Label text="Customer Name"/></Column>
+				<Column><Label text="Ticket Status"/></Column>
+				<Column><Label text="Open Date"/></Column>
+				<Column><Label text="Customer Rating"/></Column>
+				<Column><Label text="Ticket Priority"/></Column>
+				<Column><Label text="SLA"/></Column>
+				<Column><Label text="Short Description"/></Column>
+			</columns>
+			<items>
+				<ColumnListItem type="Navigation" press="navToTicketDetail">
+					<cells>
+						<Text text="{Name}"/>
+						<Text text="{TicketStatus}"/>
+						<Text text="{OpenDate}"/>
+						<Text text="{Rating}"/>
+						<Text text="{Priority}"/>
+						<Text text="{SLADateTime}"/>
+						<Text text="{ShortDescription}"/>
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+	</Page>
+</mvc:View>

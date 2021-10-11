@@ -1,0 +1,33 @@
+<mvc:View controllerName="com.hcl.telecom.operator.ui.controller.App"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:tnt="sap.tnt">
+	<Page class="app-page">
+		<customHeader>
+			<Toolbar>
+				<core:Icon class="sapUiSmallMargin" app:route="Home" tooltip="Home" src="sap-icon://home" press="navigate"/>
+				<Title class="sapUiSmallMarginBegin" text="Telecom Operator Dashboard"/>
+				<ToolbarSpacer/>
+				<Title class="sapUiSmallMarginBegin" text="Tom Wilson"/>
+				<Avatar src="img/user.png" class="sapUiTinyMarginBeginEnd" displaySize="XS"/>
+			</Toolbar>
+		</customHeader>
+		<HBox class="navigation-container">
+			<VBox class="navigationPanel">
+				<core:Icon class="sapUiSmallMargin" press="navigate" src="sap-icon://it-system" app:route="AssetDistribution" tooltip="Assets Distribution" />
+				<!-- <core:Icon class="sapUiSmallMargin" press="navigate" src="sap-icon://line-chart" app:route="InstallationTrend" tooltip="Installation Trend"/> -->
+				<core:Icon class="sapUiSmallMargin" press="navigate" src="sap-icon://feed" app:route="Coverage" tooltip="5G Adoption and Coverage"/>
+				<!-- <core:Icon class="sapUiSmallMargin" press="navigate" src="sap-icon://activate"/>
+				<core:Icon class="sapUiSmallMargin" press="navigate" src="sap-icon://leads"/>
+				<core:Icon class="sapUiSmallMargin" press="navigate" src="sap-icon://quality-issue"/>
+				<core:Icon class="sapUiSmallMargin" press="navigate" src="sap-icon://pie-chart"/> -->
+			</VBox>
+			<App id="rootApp">
+
+			</App>
+		</HBox>
+	</Page>
+</mvc:View>

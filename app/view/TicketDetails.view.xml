@@ -1,0 +1,183 @@
+<mvc:View controllerName="com.hcl.telecom.operator.ui.controller.TicketDetails"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:l="sap.ui.layout"
+	xmlns:ux="sap.uxap"
+	xmlns:tnt="sap.tnt">
+	<Page showHeader="false">
+		<ux:ObjectPageLayout id="ObjectPageLayout" upperCaseAnchorBar="false">
+			<ux:headerTitle>
+				<ux:ObjectPageHeader objectTitle="{/CustomerTicket/ID}">
+				</ux:ObjectPageHeader>
+			</ux:headerTitle>
+			<ux:headerContent>
+				<ObjectAttribute title="Description" text="{/CustomerTicket/ShortDescription}"/>
+			</ux:headerContent>
+
+			<ux:sections>
+
+				<ux:ObjectPageSection titleUppercase="false" title="Customer Details">
+					<ux:subSections>
+						<ux:ObjectPageSubSection title="Customer Details" titleUppercase="false">
+							<ux:blocks>
+								<l:Grid vSpacing="2">
+									<VBox>
+										<Label text="Customer Name"/>
+										<Text text="{/CustomerTicket/Name}"/>
+									</VBox>
+									<VBox>
+										<Label text="Address"/>
+										<Text text="{/CustomerTicket/Address}"/>
+									</VBox>
+									<VBox>
+										<Label text="Customer Rating"/>
+										<Text text="{/CustomerTicket/Rating}"/>
+									</VBox>
+									<VBox>
+										<Label text="Customer Location"/>
+										<Text text="Geo: {/CustomerTicket/lat},{/CustomerTicket/lng}"/>
+									</VBox>
+								</l:Grid>
+							</ux:blocks>
+						</ux:ObjectPageSubSection>
+					</ux:subSections>
+				</ux:ObjectPageSection>
+				<ux:ObjectPageSection titleUppercase="false" title="Ticket Details">
+					<ux:subSections>
+						<ux:ObjectPageSubSection title="Ticket Details" titleUppercase="false">
+							<ux:blocks>
+								<l:Grid vSpacing="2">
+									<VBox>
+										<Label text="Issue With"/>
+										<Text text="{/CustomerTicket/ReportArea}"/>
+									</VBox>
+									<VBox>
+										<Label text="Ticket Status"/>
+										<Text text="{/CustomerTicket/TicketStatus}"/>
+									</VBox>
+									<VBox>
+										<Label text="Ticket Opened On"/>
+										<Text text="{/CustomerTicket/OpenDate}"/>
+									</VBox>
+									<VBox class="sapUiSmallMarginTop">
+										<Label text="Ticket Opened By Channel"/>
+										<Text text="{/CustomerTicket/Source}"/>
+									</VBox>
+									<VBox class="sapUiSmallMarginTop">
+										<Label text="Currently Assigned To"/>
+										<Text text="{/CustomerTicket/TeamAssignment}"/>
+									</VBox>
+									<VBox class="sapUiSmallMarginTop">
+										<Label text="Ticket Opened On"/>
+										<Text text="{/CustomerTicket/OpenDate}"/>
+									</VBox>
+									<VBox class="sapUiSmallMarginTop">
+										<Label text="SLA"/>
+										<Text text="{/CustomerTicket/SLADateTime}"/>
+									</VBox>
+									<VBox class="sapUiSmallMarginTop">
+										<Label text="Ticket Priority"/>
+										<Text text="{/CustomerTicket/Priority}"/>
+									</VBox>
+								</l:Grid>
+							</ux:blocks>
+						</ux:ObjectPageSubSection>
+					</ux:subSections>
+				</ux:ObjectPageSection>
+				<ux:ObjectPageSection titleUppercase="false" title="Device Details">
+					<ux:subSections>
+						<ux:ObjectPageSubSection title="Device Details" titleUppercase="false">
+							<ux:blocks>
+								<l:Grid vSpacing="2">
+									<VBox>
+										<Label text="Device Class"/>
+										<Text text="WNDR3400"/>
+									</VBox>
+									<VBox>
+										<Label text="MAC Identifier"/>
+										<Text text="18:59:45:48:20:00"/>
+									</VBox>
+									<VBox>
+										<Label text="WiFi AP"/>
+										<Text text="Enabled"/>
+									</VBox>
+									<VBox>
+										<Label text="AP Name"/>
+										<Text text="2.4, 2.4_Primary, 5, 5_Guest, 2"/>
+									</VBox>
+									<VBox class="sapUiSmallMarginTop">
+										<Label text="Bandwidth Utilization"/>
+										<Text text="Up: 46.2Mb/s / Down: 12Mb/s"/>
+									</VBox>
+									<VBox class="sapUiSmallMarginTop">
+										<Label text="Manufacturer"/>
+										<Text text="Jungo Software Technol"/>
+									</VBox>
+									<VBox class="sapUiSmallMarginTop">
+										<Label text="Model Name"/>
+										<Text text="Cablevision 1.0"/>
+									</VBox>
+									<VBox class="sapUiSmallMarginTop">
+										<Label text="Serial Number"/>
+										<Text text="demo_router_6"/>
+									</VBox>
+									<VBox class="sapUiSmallMarginTop">
+										<Label text="IP"/>
+										<Text text="10.128.0.1"/>
+									</VBox>
+								</l:Grid>
+							</ux:blocks>
+						</ux:ObjectPageSubSection>
+					</ux:subSections>
+				</ux:ObjectPageSection>
+
+				<ux:ObjectPageSection titleUppercase="false" title="System Alerts">
+					<ux:subSections>
+						<ux:ObjectPageSubSection title="System Alerts" titleUppercase="false">
+							<ux:blocks>
+								<VBox>
+								<Table>
+									<columns>
+										<Column>
+											<Label text="Category"/>
+										</Column>
+										<Column>
+											<Label text="Alert Name"/>
+										</Column>
+										<Column>
+											<Label text="Description"/>
+										</Column>
+									</columns>
+									<items>
+										<ColumnListItem>
+											<cells>
+												<Text text="System Health"/>
+												<Text text="Software version – not recommended"/>
+												<Text text="Device has a software version which is not recommended."/>
+											</cells>
+										</ColumnListItem>
+										<ColumnListItem>
+											<cells>
+												<Text text="Wireless"/>
+												<Text text="Saturated Channel"/>
+												<Text text="Wireless channel 4 is saturated"/>
+											</cells>
+										</ColumnListItem>
+									</items>
+								</Table>
+								<HBox>
+									<Link text="View Device Dashboard" class="sapUiSmallMarginTopBottom" href="https://icex-711-customer-demo.helpdesk.hcl-icex.com/group/guest/device-view?deviceId=demo_router_6" target="_blank"/>
+									<Link text="Create Work Order" class="sapUiSmallMarginTopBottom sapUiSmallMarginBegin" press="createWorkOrder"/>
+								</HBox>
+								</VBox>
+							</ux:blocks>
+						</ux:ObjectPageSubSection>
+					</ux:subSections>
+				</ux:ObjectPageSection>
+			</ux:sections>
+		</ux:ObjectPageLayout>
+	</Page>
+</mvc:View>

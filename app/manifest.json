@@ -1,0 +1,256 @@
+{
+	"_version": "1.8.0",
+	"sap.app": {
+		"_version": "1.3.0",
+		"id": "com.hcl.telecom.operator.ui",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"crossNavigation": {
+			"inbounds": {}
+		},
+		"dataSources": {
+			"Service": {
+				"uri": "/telecom/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "4.0",
+					"localUri": "localService/metadata.xml",
+					"annotations": []
+				}
+			}
+		},
+		"sourceTemplate": {
+			"id": "servicecatalog.connectivityComponentForManifest",
+			"version": "0.0.0"
+		}
+	},
+	"sap.ui": {
+		"_version": "1.3.0",
+		"technology": "UI5",
+		"icons": {
+			"icon": "sap-icon://activate",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"supportedThemes": [
+			"sap_belize",
+			"sap_bluecrystal"
+		]
+	},
+	"sap.ui5": {
+		"_version": "1.2.0",
+		"rootView": {
+			"viewName": "com.hcl.telecom.operator.ui.view.App",
+			"type": "XML"
+		},
+		"dependencies": {
+			"minUI5Version": "1.30.0",
+			"libs": {
+				"sap.ui.core": {},
+				"sap.m": {},
+				"sap.ui.layout": {}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "com.hcl.telecom.operator.ui.i18n.i18n"
+				}
+			},
+			"": {
+				"type": "sap.ui.model.json.JSONModel",
+				"settings": {},
+				"uri": ""
+			},
+			"odata": {
+				"type": "sap.ui.model.odata.v4.ODataModel",
+				"settings": {
+					"synchronizationMode": "None"
+				},
+				"dataSource": "Service",
+				"preload": true
+			}
+		},
+		"resources": {
+			"css": [
+				{
+					"uri": "css/style.css"
+				},
+				{
+					"uri": "css/animate.css"
+				}
+			],
+			"js": [
+				{
+					"uri": "js/Formatter.js"
+				}
+			]
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"viewPath": "com.hcl.telecom.operator.ui.view",
+				"targetAggregation": "pages",
+				"controlAggregation": "pages",
+				"clearControlAggregation": false,
+				"controlId": "rootApp"
+			},
+			"routes": [
+				{
+					"name": "Home",
+					"pattern": "",
+					"titleTarget": "",
+					"greedy": true,
+					"target": [
+						"Home"
+					]
+				},{
+					"name": "InstallationTrend",
+					"pattern": "connectionTrend",
+					"titleTarget": "",
+					"greedy": true,
+					"target": [
+						"InstallationTrend"
+					]
+				},{
+					"name": "AssetDistribution",
+					"pattern": "assetDistribution",
+					"titleTarget": "",
+					"greedy": true,
+					"target": [
+						"AssetDistribution"
+					]
+				},{
+					"name": "Coverage",
+					"pattern": "5gCoverage",
+					"titleTarget": "",
+					"greedy": true,
+					"target": [
+						"Coverage"
+					]
+				},{
+					"name": "Tickets",
+					"pattern": "Tickets/:filters:",
+					"titleTarget": "",
+					"greedy": true,
+					"target": [
+						"Tickets"
+					]
+				},{
+					"name": "TicketDetails",
+					"pattern": "TicketDetails/{id}",
+					"titleTarget": "",
+					"greedy": true,
+					"target": [
+						"TicketDetails"
+					]
+				},{
+					"name": "ICEX",
+					"pattern": "ICEX",
+					"titleTarget": "",
+					"greedy": true,
+					"target": [
+						"ICEX"
+					]
+				},{
+					"name": "Requests",
+					"pattern": "Requests/{type}",
+					"titleTarget": "",
+					"greedy": true,
+					"target": [
+						"Requests"
+					]
+				}
+			],
+			"targets": {
+				"Home": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "Home",
+					"viewLevel": 1,
+					"controlAggregation": "pages"
+				},
+				"InstallationTrend": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "InstallationTrend",
+					"viewLevel": 2,
+					"controlAggregation": "pages"
+				},
+				"AssetDistribution": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "AssetDistribution",
+					"viewLevel": 2,
+					"controlAggregation": "pages"
+				},
+				"Coverage": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "Coverage",
+					"viewLevel": 2,
+					"controlAggregation": "pages"
+				},
+				"Tickets": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "Tickets",
+					"viewLevel": 2,
+					"controlAggregation": "pages"
+				},
+				"TicketDetails": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "TicketDetails",
+					"viewLevel": 3,
+					"controlAggregation": "pages"
+				},
+				"ICEX": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "ICEX",
+					"viewLevel": 4,
+					"controlAggregation": "pages"
+				},
+				"Requests": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "Requests",
+					"viewLevel": 3,
+					"controlAggregation": "pages"
+				}
+			}
+		}
+	},
+	"sap.platform.hcp": {
+		"uri": "webapp",
+		"_version": "1.2.0"
+	}
+}

@@ -1,0 +1,55 @@
+<mvc:View controllerName="com.hcl.telecom.operator.ui.controller.AssetDistribution"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:l="sap.ui.layout"
+	xmlns:s="dev.sachin"
+	xmlns:tnt="sap.tnt" class="sapTntNavLI"
+	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    xmlns:viz.data="sap.viz.ui5.data"
+	xmlns:viz="sap.viz.ui5.controls" >
+	<Page showHeader="false">
+		<l:Grid defaultSpan="L6 M6 S12">
+			<VBox width="100%">
+				<Title class="sapUiSmallMargin" text="Assets by Hardware / Software levels"/>
+				<s:SegmentedPie data="{/Assets/AssetBySupportLevels}" height="256px" width="100%"/>
+			</VBox>
+			<VBox>
+				<Title class="sapUiSmallMargin" text="Assets by Age"/>
+				<viz:VizFrame id="idVizFrame" vizProperties="{title:{visible:false},categoryAxis:{title:{visible:false}}}" uiConfig="{applicationSet:'fiori'}" height="256px" width="100%" vizType='stacked_bar'>
+					<viz:dataset>
+						<viz.data:FlattenedDataset data="{/Assets/AssetGroupByAge}">
+							<viz.data:dimensions>
+								<viz.data:DimensionDefinition name="Age Group" value="Age Group" />
+								<viz.data:DimensionDefinition name="Fat Percentage" value="{AgeGroup}" />
+							</viz.data:dimensions>
+							<viz.data:measures>
+								<viz.data:MeasureDefinition name="Count" value="{Count}" />
+							</viz.data:measures>
+						</viz.data:FlattenedDataset>
+					</viz:dataset>
+
+					<viz:feeds>
+						<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="Count" />
+						<viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Age Group" />
+						<viz.feeds:FeedItem uid="color" type="Dimension" values="Fat Percentage" />
+					</viz:feeds>
+				</viz:VizFrame>
+			</VBox>
+			<VBox>
+				<Title class="sapUiSmallMargin" text="Assets distribution by Region"/>
+				<VBox id="mapDistribution" height="256px"></VBox>
+			</VBox>
+			<VBox width="100%">
+				<Title class="sapUiSmallMargin" text="Assets by Hardware Vendors"/>
+				<s:SegmentedPie data="{/Assets/AssetByVendors}" height="256px" width="100%"/>
+			</VBox>
+		</l:Grid>
+		<!-- <footer>
+			<Toolbar>
+				<Button text="Data"/>
+			</Toolbar>
+		</footer> -->
+	</Page>
+</mvc:View>

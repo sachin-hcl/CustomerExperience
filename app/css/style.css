@@ -1,0 +1,109 @@
+html, body{
+    margin:0;
+}
+body{
+    padding:0.5rem 1rem 0 1rem;
+    background: #d0e8ff;
+    height:calc( 100% - 0.5rem )!important;
+    
+}
+.sapUiBody{
+    border-radius: 1rem 1rem 0 0;
+    overflow: hidden;
+}
+
+.app-page>header{
+    box-shadow: none !important;
+}
+.app-page>header>.sapMTB{
+    box-shadow: none;
+    border-bottom: none;
+}
+
+
+/*
+.frame-page>section{
+    margin:0.5rem 1rem;
+    width: calc( 100vw - 2rem );
+    border-radius: 1rem 1rem 0 0;
+    height: calc( 100% - 1rem ) !important;
+}
+.frame-page{
+    background: #d0e8ff;
+}
+
+html, body{
+    overflow:hidden;
+}
+
+*/
+
+.navigationPanel{
+     height: 100%;
+    padding: 8px;
+    background: white;
+}
+
+.navigation-container>:nth-child(2){
+    width:100%;
+    height: calc( 100% - 40px ) !important;
+}
+
+.arc path:hover{
+    stroke-width: 2px;
+    stroke: #323232;
+}
+
+
+.banner-page{
+    background-image:url(https://bountyplatform.io/files/company/18/1897/18973215233667424814.jpg);
+    background-size:cover;
+    background-color:#67d9ff;
+    height: 185px;
+}
+
+.banner-page .banner-title{
+    color:#312090;
+    text-shadow:1px 1px 2px #564bdc;
+    font-size: xx-large;
+}
+.kpi-box{
+    background: #f7f8f9;
+    min-height:10px;
+    margin-top:16px;
+    border-radius: 1rem 0;
+    box-shadow: 0px 0px 4px #8ba4c7;
+}
+
+.kpi-box .label{
+    color:#444444;
+    font-size: 16px;
+    padding:12px 16px;
+    min-height: 3rem;
+}
+
+.kpi-box .value{
+    color:#ff7600;
+    font-size:xx-large;
+    padding:8px 16px;
+}
+
+.kpi-box .secondValue{
+    color:#828282;
+    font-size:x-large;
+    padding:8px 16px;
+    margin-top:8px;
+}
+
+.kpi-box a{
+    color:#0027b5 !important;
+}
+
+.kpi-box *{
+    color:#484848;
+}
+
+
+.fullMap{
+    height: 88vh !important;
+}

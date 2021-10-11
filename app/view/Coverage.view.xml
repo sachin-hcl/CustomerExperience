@@ -1,0 +1,23 @@
+<mvc:View controllerName="com.hcl.telecom.operator.ui.controller.Coverage"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:l="sap.ui.layout"
+	xmlns:tnt="sap.tnt">
+	<Page showHeader="false">
+		<l:Grid defaultSpan="L9 M12 S12">
+			<VBox id="networkMap" class="fullMap" height="100%"></VBox>
+			<VBox>
+				<layoutData>
+					<l:GridData span="L3 M12 S12"/>
+				</layoutData>
+				<Title text="Alerts by Region" class="sapUiTinyMarginTopBottom"/>
+				<Table>
+					
+				</Table>
+			</VBox>
+		</l:Grid>
+	</Page>
+</mvc:View>

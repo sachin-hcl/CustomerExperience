@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta charset="UTF-8">
+
+	<title>Telecom Operator Dashboard</title>
+	
+	<link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-clustering.js"></script>
+	<script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-data.js"></script>
+    
+    <script>
+        window.ENV_VARIABLE = 'developer.here.com';
+        window.apikey = "Vql4c2SsGmTWC8jr8baO3M9VsnKPFeUtyGbNO0lucMw";
+    </script>
+
+	<script id="sap-ui-bootstrap" src="https://sapui5.hana.ondemand.com/1.73.0/resources/sap-ui-core.js" data-sap-ui-libs="sap.m"
+		data-sap-ui-theme="sap_fiori_3" data-sap-ui-compatVersion="edge"
+		data-sap-ui-resourceroots='{"com.hcl.telecom.operator.ui": ""}'>
+	</script>
+	<!--
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.54/pdfmake.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.54/vfs_fonts.js"></script>
+	-->
+	<script>
+		sap.ui.getCore().attachInit(function () {
+			sap.ui.getCore().loadLibrary("dev.sachin", "./sachin");
+			
+			new sap.ui.core.ComponentContainer({
+				height: "100%",
+				name: "com.hcl.telecom.operator.ui"
+			}).placeAt("content");
+		});
+	</script>
+</head>
+
+<body>
+	<div class="sapUiBody sapUiSizeCompact" id="content"></div>
+</body>
+
+</html>

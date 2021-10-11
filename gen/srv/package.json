@@ -1,0 +1,33 @@
+{
+  "name": "telecom",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@sap/cds": "^5",
+    "exceljs": "^4.3.0",
+    "express": "^4.17.1",
+    "multer": "^1.4.3"
+  },
+  "devDependencies": {
+    "cds-swagger-ui-express": "^0.2.0",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "chai-subset": "^1.6.0",
+    "sqlite3": "^5.0.0"
+  },
+  "scripts": {
+    "watch": "cds watch"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/*.test.js"
+    ]
+  },
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=12.18"
+  }
+}
