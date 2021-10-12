@@ -15,7 +15,30 @@
 				</layoutData>
 				<Title text="Alerts by Region" class="sapUiTinyMarginTopBottom"/>
 				<Table>
-					
+					<columns>
+                        <Column><Label text="Circle"/></Column>
+                        <Column><Label text="Alert Count"/></Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem>
+                            <cells>
+                                <Text text="London"/>
+                                <Text text="16"/>
+                            </cells>
+                        </ColumnListItem>
+                        <ColumnListItem>
+                            <cells>
+                                <Text text="Leeds"/>
+                                <Text text="7"/>
+                            </cells>
+                        </ColumnListItem>
+                        <ColumnListItem>
+                            <cells>
+                                <Text text="Glasgow"/>
+                                <Text text="1"/>
+                            </cells>
+                        </ColumnListItem>
+                    </items>
 				</Table>
 			</VBox>
 		</l:Grid>

@@ -1,0 +1,3 @@
+ID,Warehouse_ID,Type,StockCount,Status
+47a63f39-b02a-4e60-b087-0278bd3b3770,d2820891-7f6f-4b7b-b65c-5e60182159ea,Routers,75,"In Stock"
+112b923c-a9dc-4413-8b49-31fcfac917dd,d2820891-7f6f-4b7b-b65c-5e60182159ea,Routers,50,"Awaiting Delivery"

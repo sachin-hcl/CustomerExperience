@@ -107,3 +107,9 @@ html, body{
 .fullMap{
     height: 88vh !important;
 }
+
+
+
+.fullScreenDialog{
+    width:90%;
+}

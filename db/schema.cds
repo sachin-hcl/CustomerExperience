@@ -35,6 +35,7 @@ entity Assets {
 }
 
 entity Plans:cuid{
+  Name : String(64);
   Rent : Double;
   DataLimit : Integer;//data limit in GB per month -1 for unlimited
   SpeedLimit : Integer;//MBPS -1 for unlimited
@@ -80,6 +81,7 @@ entity Stocks : cuid {
   Warehouse : Association to Warehouses;
   Type : String(64); //Fiber Router, 5G Router, Hub
   StockCount : Integer;
+  Status: String(64);
 }
 
 entity Dates{

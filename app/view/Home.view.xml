@@ -85,7 +85,7 @@
 
 			<VBox class="kpi-box">
 				<Text class="label" textAlign="Begin" text="Ageing Assets which may need replacement" width="100%"/>
-				<mc:RadialMicroChart size="M" tooltip="{/Counts/AgedAssets} Devices managed are 6+ Years old" percentage="{/Counts/AssetReplacementPercent}" press="press" class="sapUiSmallMargin"></mc:RadialMicroChart>
+				<mc:RadialMicroChart size="M" tooltip="{/Counts/AgedAssets} Devices managed are 6+ Years old" percentage="{/Counts/AssetReplacementPercent}" press="navigate" app:route="AssetDistribution" class="sapUiSmallMargin"></mc:RadialMicroChart>
 			</VBox>
 			<VBox class="kpi-box">
 				<Text class="label" textAlign="Begin" text="Requirement vs &#10; In-Stock Assets" width="100%"/>
@@ -101,7 +101,7 @@
 					</mc:actual>
 				</mc:BulletMicroChart>
 				<Text text="{/Counts/AssetsInStock} In Stock vs {/Counts/AssetsRequired} Required" class="sapUiSmallMarginBegin"/>
-				<Link text="Inventory..." press="navigate" class="sapUiSmallMarginBegin sapUiTinyMarginBottom"/>
+				<Link text="Inventory..." app:route="Inventory" press="navigate" class="sapUiSmallMarginBegin sapUiTinyMarginBottom"/>
 			</VBox>
 		</l:Grid>
 	</Page>

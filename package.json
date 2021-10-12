@@ -17,7 +17,8 @@
     "sqlite3": "^5.0.0"
   },
   "scripts": {
-    "watch": "cds watch"
+    "watch": "cds watch",
+    "start": "cds serve"
   },
   "jest": {
     "testEnvironment": "node",
@@ -25,15 +26,16 @@
       "**/*.test.js"
     ]
   },
+  "engines": {
+    "node": "14.17.x"
+  },
   "author": "",
   "license": "ISC",
   "cds": {
     "requires": {
       "db": {
         "kind": "sqlite",
-        "credentials": {
-          "database": "sqlite.db"
-        }
+        "model": "*"
       }
     }
   }

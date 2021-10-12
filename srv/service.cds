@@ -19,4 +19,6 @@ service Telecom {
   entity TicketPriorityCounts as projection on views.TicketPriorityCounts;
   entity Stocks as projection on tables.Stocks;
   entity AssetByVendors as projection on views.AssetByVendors;
+  entity Warehouses as projection on tables.Warehouses;
+  entity Plans as projection on tables.Plans;
 }

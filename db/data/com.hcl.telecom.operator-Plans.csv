@@ -1,0 +1,3 @@
+ID,Name,Rent,DataLimit,SpeedLimit,InstallationType,Rating
+242b1bb9-1ebe-4f17-92f8-df8d1f3c0386,"Unlimited 100Mbps",50,-1,100,Fiber,5
+839a0b30-75ec-42a8-b52c-e5949cab283b,"50GB / Month",40,50,-1,4G,4

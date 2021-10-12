@@ -26,7 +26,7 @@ sap.ui.define([
 				$.get(this.getView().getModel("odata").sServiceUrl + "Assets/$count"),
 				$.getJSON(this.getView().getModel("odata").sServiceUrl + "AssetGroupByAge?$filter=AgeGroup eq '6 + Years'"),
 				$.get(this.getView().getModel("odata").sServiceUrl + "CustomerTickets/$count?$filter=TicketStatus ne 'Closed' and Rating eq 5"),
-				$.getJSON(this.getView().getModel("odata").sServiceUrl + "Stocks"),
+				$.getJSON(this.getView().getModel("odata").sServiceUrl + "Stocks?$filter=Status eq 'In Stock'"),
 			]).then(results => {
 				//TicketsBreachingSLA
 				//OpenTickets
@@ -64,39 +64,6 @@ sap.ui.define([
 			this.oRouter.navTo("Requests",{
 				type:oEvent.getSource().data("type")
 			});
-		},
-		onAfterRendering: function () {
-			// this.getView().getModel().setProperty("/Tickets", [{
-			// 	date: "2021-10-05",
-			// 	high: 3,
-			// 	medium: 18,
-			// 	low: 39
-			// }, {
-			// 	date: "2021-10-05",
-			// 	high: 4,
-			// 	medium: 24,
-			// 	low: 39
-			// }, {
-			// 	date: "2021-10-04",
-			// 	high: 2,
-			// 	medium: 12,
-			// 	low: 39
-			// }, {
-			// 	date: "2021-10-03",
-			// 	high: 9,
-			// 	medium: 10,
-			// 	low: 39
-			// }, {
-			// 	date: "2021-10-02",
-			// 	high: 25,
-			// 	medium: 9,
-			// 	low: 39
-			// }, {
-			// 	date: "2021-10-01",
-			// 	high: 18,
-			// 	medium: 20,
-			// 	low: 39
-			// }])
-		}
+        }
 	});
 });

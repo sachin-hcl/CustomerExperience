@@ -17,12 +17,12 @@
 			</VBox>
 			<VBox>
 				<Title class="sapUiSmallMargin" text="Assets by Age"/>
-				<viz:VizFrame id="idVizFrame" vizProperties="{title:{visible:false},categoryAxis:{title:{visible:false}}}" uiConfig="{applicationSet:'fiori'}" height="256px" width="100%" vizType='stacked_bar'>
+				<viz:VizFrame id="idVizFrame" selectData="showAssets" vizProperties="{title:{visible:false},categoryAxis:{title:{visible:false}}}" uiConfig="{applicationSet:'fiori'}" height="256px" width="100%" vizType='stacked_bar'>
 					<viz:dataset>
 						<viz.data:FlattenedDataset data="{/Assets/AssetGroupByAge}">
 							<viz.data:dimensions>
-								<viz.data:DimensionDefinition name="Age Group" value="Age Group" />
-								<viz.data:DimensionDefinition name="Fat Percentage" value="{AgeGroup}" />
+								<viz.data:DimensionDefinition name="Grouping" value="Age Group" />
+								<viz.data:DimensionDefinition name="Age Group" value="{AgeGroup}" />
 							</viz.data:dimensions>
 							<viz.data:measures>
 								<viz.data:MeasureDefinition name="Count" value="{Count}" />
@@ -32,8 +32,8 @@
 
 					<viz:feeds>
 						<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="Count" />
-						<viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Age Group" />
-						<viz.feeds:FeedItem uid="color" type="Dimension" values="Fat Percentage" />
+						<viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Grouping" />
+						<viz.feeds:FeedItem uid="color" type="Dimension" values="Age Group" />
 					</viz:feeds>
 				</viz:VizFrame>
 			</VBox>

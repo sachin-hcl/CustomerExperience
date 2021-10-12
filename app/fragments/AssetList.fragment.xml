@@ -1,0 +1,49 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <TableSelectDialog noDataText="No Devices Found" title="Selected Assets" search=".handleSearch" confirm=".handleClose" cancel=".handleClose" multiSelect="false" class="fullScreenDialog" items="{
+			path : '/DisplayAssets',
+			sorter : {
+				path : 'InstalledDate',
+				descending : false
+			}
+		}">
+        <ColumnListItem>
+            <cells>
+                <ObjectIdentifier title="{Customer/Name}" text="Rating:{Customer/Rating}" />
+                <Link href="https://icex-711-customer-demo.helpdesk.hcl-icex.com/group/guest/device-view?deviceId=demo_router_6" target="_blank" text="{SerialNumber}" />
+                <Text text="{Vendor}" />
+                <Text text="{Customer/Address}"/>
+                <Text text="{InstalledDate}"/>
+                <Text text="{LastServiceDate}"/>
+                <Text text="{SupportStatus}"/>
+                <Text text="{Plan/Name}"/>
+			</cells>
+                </ColumnListItem>
+                <columns>
+                    <Column>
+                        <Label text="Customer" />
+                    </Column>
+                    <Column width="12em">
+                        <Label text="Serial Number" />
+                    </Column>
+                    <Column>
+                        <Label text="Manufacturer" />
+                    </Column>
+                    <Column>
+                        <Label text="Location" />
+                    </Column>
+                    <Column>
+                        <Label text="Installation Date" />
+                    </Column>
+                    <Column>
+                        <Label text="Last Service" />
+                    </Column>
+                    <Column>
+                        <Label text="Support Status" />
+                    </Column>
+                    <Column>
+                        <Label text="Customer Plan" />
+                    </Column>
+                </columns>
+            </TableSelectDialog>
+        </core:FragmentDefinition>

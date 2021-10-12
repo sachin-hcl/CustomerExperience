@@ -1,0 +1,35 @@
+<mvc:View controllerName="com.hcl.telecom.operator.ui.controller.Inventory"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:tnt="sap.tnt">
+	<Page showHeader="false">
+		<Title text="Available Stocks" class="sapUiSmallMargin"/>
+		<Table items="{/Stocks}" growing="true" growingThreshold="10">
+		<columns>
+				<Column><Label text="Device Type"/></Column>
+				<Column><Label text="Warehouse"/></Column>
+				<Column><Label text="Stock Count"/></Column>
+				<Column><Label text="Status"/></Column>
+		</columns>
+        <items>
+            <ColumnListItem>
+                <cells>
+                    <Text text="{Type}"/>
+                    <Text text="{Warehouse/Address}"/>
+                    <Text text="{StockCount}"/>
+                    <Text text="{Status}"/>
+                </cells>
+            </ColumnListItem>
+        </items>
+        </Table>
+        <footer>
+            <Toolbar>
+                <ToolbarSpacer/>
+                <Button text="Create Purchase Requisition" press="createPR"/>
+            </Toolbar>
+        </footer>
+	</Page>
+</mvc:View>
