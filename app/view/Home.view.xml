@@ -58,7 +58,7 @@
 				</VBox>
 
 				<VBox width="100%" class="sapContrast">
-					<viz:VizFrame vizProperties="{legend:{label:{style:{color:'#a0a0a0'}}},plotArea:{background:{},marker:{visible:false},referenceLine:{visible:false}},title:{visible:false},valueAxis:{title:{visible:false}},categoryAxis:{label:{angle:45,style:{color:'#a0a0a0'}},color:'#ffffff',title:{visible:false}}}" uiConfig="{applicationSet:'fiori'}" height="180px" width="100%" vizType='line'>
+					<viz:VizFrame vizProperties="{legend:{label:{style:{color:'#a0a0a0'}}},plotArea:{isSmoothed:true,background:{},marker:{visible:false},referenceLine:{visible:false}},title:{visible:false},valueAxis:{title:{visible:false}},categoryAxis:{label:{angle:45,style:{color:'#a0a0a0'}},color:'#ffffff',title:{visible:false}}}" uiConfig="{applicationSet:'fiori'}" height="180px" width="100%" vizType='line'>
 						<viz:dataset>
 							<viz.data:FlattenedDataset data="{/Counts/TicketPriorityCounts}">
 								<viz.data:dimensions>
